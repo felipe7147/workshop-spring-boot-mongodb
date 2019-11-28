@@ -1,19 +1,17 @@
 package com.felipealmeida.workshopmongo.dto;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 import com.felipealmeida.workshopmongo.domain.User;
 
 public class UserDTO implements Serializable {
-	
-	
 	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String name;
 	private String email;
 	
-	public UserDTO(Optional<User> obj) {
+	public UserDTO() {
 		
 	}
 	
