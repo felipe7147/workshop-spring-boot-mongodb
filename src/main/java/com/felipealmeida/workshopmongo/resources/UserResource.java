@@ -2,7 +2,6 @@ package com.felipealmeida.workshopmongo.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.felipealmeida.workshopmongo.domain.Post;
 import com.felipealmeida.workshopmongo.domain.User;
 import com.felipealmeida.workshopmongo.dto.UserDTO;
 import com.felipealmeida.workshopmongo.services.UserService;
@@ -33,11 +33,13 @@ public class UserResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-		Optional<User> obj = service.findById(id);
-		return ResponseEntity.ok().body(new UserDTO());
+
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+ 	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(new UserDTO(obj));
 	}
+
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody UserDTO objDto) {
@@ -62,5 +64,11 @@ public class UserResource {
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 
+	}
+	
+	@RequestMapping(value="/{id}/posts", method=RequestMethod.GET)
+ 	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getPosts());
 	}
 }
